@@ -35,7 +35,6 @@
   <ItemGroup>
     <Folder Include="Payments\Endpoints\" />
     <Folder Include="Rates\Endpoints\" />
-    <Folder Include="Clients\Endpoints\" />
   </ItemGroup>
 
 </Project>

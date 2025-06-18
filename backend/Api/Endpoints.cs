@@ -1,4 +1,5 @@
 ﻿using Api.Authentication.Endpoints;
+using Api.Clients.Endpoints;
 using Api.Common.Filters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
@@ -25,6 +26,7 @@ public static class Endpoints
             .WithOpenApi();
 
         endpoints.MapAuthenticationEndpoints();
+        endpoints.MapClientEndpoints();
     }
 
     private static void MapAuthenticationEndpoints(this IEndpointRouteBuilder app)
@@ -35,6 +37,22 @@ public static class Endpoints
         endpoints.MapPublicGroup()
             .MapEndpoint<Signup>()
             .MapEndpoint<Login>();
+    }
+
+    private static void MapClientEndpoints(this IEndpointRouteBuilder app)
+    {
+        var endpoints = app.MapGroup("/clients")
+            .WithTags("Clients");
+
+        endpoints.MapPublicGroup()
+            .MapEndpoint<GetClients>()
+            .MapEndpoint<GetClientById>()
+            .MapEndpoint<GetClientPayments>();
+
+        endpoints.MapAuthorizedGroup()
+            .MapEndpoint<CreateClient>()
+            .MapEndpoint<UpdateClient>()
+            .MapEndpoint<DeleteClient>();
     }
 
     private static RouteGroupBuilder MapPublicGroup(this IEndpointRouteBuilder app, string? prefix = null)
