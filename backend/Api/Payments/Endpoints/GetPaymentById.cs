@@ -1,10 +1,10 @@
-﻿namespace Api.Clients.Endpoints;
+﻿namespace Api.Payments.Endpoints;
 
-public class GetClientById : IEndpoint
+public class GetPaymentById : IEndpoint
 {
     public static void Map(IEndpointRouteBuilder app) => app
         .MapGet("/{id}", Handle)
-        .WithSummary("Gets a client by id")
+        .WithSummary("Gets a payment by id")
         .WithRequestValidation<Request>();
 
     public record Request(int Id);
@@ -12,29 +12,33 @@ public class GetClientById : IEndpoint
     {
         public RequestValidator()
         {
-            RuleFor(c => c.Id).GreaterThan(0);
+            RuleFor(p => p.Id).GreaterThan(0);
         }
     }
     public record Response(
         int Id,
-        string UserName,
-        DateTime CreatedAtUtc
+        decimal Amount,
+        string Client,
+        DateTime CreatedAtUtc,
+        double Rate
     );
 
     private static async Task<Results<Ok<Response>, NotFound>> Handle([AsParameters] Request request, AppDbContext database, CancellationToken cancellationToken)
     {
-        var client = await database.Clients
-            .Where(c => c.Id == request.Id)
-            .Select(c => new Response
+        var payment = await database.Payments
+            .Where(p => p.Id == request.Id)
+            .Select(p => new Response
             (
-                c.Id,
-                c.UserName,
-                c.CreatedAtUtc
+                p.Id,
+                p.Amount,
+                p.Client.UserName,
+                p.CreatedAtUtc,
+                p.Rate.Value
             ))
             .SingleOrDefaultAsync(cancellationToken);
 
-        return client is null
+        return payment is null
             ? TypedResults.NotFound()
-            : TypedResults.Ok(client);
+            : TypedResults.Ok(payment);
     }
 }

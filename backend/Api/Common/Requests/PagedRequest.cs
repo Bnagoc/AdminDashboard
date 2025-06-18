@@ -4,7 +4,7 @@ public interface IPagedRequest
 {
     public const int MaxPageSize = 100;
     int? Page { get; }
-    int? PageSize { get; }
+    int? Take { get; }
 }
 
 public class PagedRequestValidator<T> : AbstractValidator<T> where T : IPagedRequest
@@ -12,7 +12,7 @@ public class PagedRequestValidator<T> : AbstractValidator<T> where T : IPagedReq
     public PagedRequestValidator()
     {
         RuleFor(x => x.Page).GreaterThan(0);
-        RuleFor(x => x.PageSize)
+        RuleFor(x => x.Take)
             .GreaterThan(0)
             .LessThanOrEqualTo(IPagedRequest.MaxPageSize);
     }
@@ -29,7 +29,7 @@ public static class PaginationDatabaseExtensions
     public static async Task<PagedList<TResponse>> ToPagedListAsync<TRequest, TResponse>(this IQueryable<TResponse> query, TRequest request, CancellationToken cancellationToken = default) where TRequest : IPagedRequest
     {
         var page = request.Page ?? 1;
-        var pageSize = request.PageSize ?? 10;
+        var pageSize = request.Take ?? 10;
 
         ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(page, 0);
         ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(pageSize, 0);

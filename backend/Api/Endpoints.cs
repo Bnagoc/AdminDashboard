@@ -1,6 +1,8 @@
 ﻿using Api.Authentication.Endpoints;
 using Api.Clients.Endpoints;
 using Api.Common.Filters;
+using Api.Payments.Endpoints;
+using Api.Rates.Endpoints;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 
@@ -27,6 +29,8 @@ public static class Endpoints
 
         endpoints.MapAuthenticationEndpoints();
         endpoints.MapClientEndpoints();
+        endpoints.MapPaymentEndpoints();
+        endpoints.MapRateEndpoints();
     }
 
     private static void MapAuthenticationEndpoints(this IEndpointRouteBuilder app)
@@ -53,6 +57,33 @@ public static class Endpoints
             .MapEndpoint<CreateClient>()
             .MapEndpoint<UpdateClient>()
             .MapEndpoint<DeleteClient>();
+    }
+
+    private static void MapRateEndpoints(this IEndpointRouteBuilder app)
+    {
+        var endpoints = app.MapGroup("/rates")
+            .WithTags("Rates");
+
+        endpoints.MapPublicGroup()
+            .MapEndpoint<GetCurrentRate>();
+
+        endpoints.MapAuthorizedGroup()
+            .MapEndpoint<UpdateRate>();
+    }
+
+    private static void MapPaymentEndpoints(this IEndpointRouteBuilder app)
+    {
+        var endpoints = app.MapGroup("/payments")
+            .WithTags("Payments");
+
+        endpoints.MapPublicGroup()
+            .MapEndpoint<GetPayments>()
+            .MapEndpoint<GetPaymentById>();
+
+        endpoints.MapAuthorizedGroup()
+            .MapEndpoint<CreatePayment>()
+            .MapEndpoint<UpdatePayment>()
+            .MapEndpoint<DeletePayment>();
     }
 
     private static RouteGroupBuilder MapPublicGroup(this IEndpointRouteBuilder app, string? prefix = null)

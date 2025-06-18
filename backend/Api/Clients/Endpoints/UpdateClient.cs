@@ -21,8 +21,8 @@ public class UpdateClient : IEndpoint
 
     private static async Task<Ok> Handle(Request request, AppDbContext database, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
     {
-        var post = await database.Clients.SingleAsync(c => c.Id == request.Id, cancellationToken);
-        post.UserName = request.UserName;
+        var client = await database.Clients.SingleAsync(c => c.Id == request.Id, cancellationToken);
+        client.UserName = request.UserName;
         await database.SaveChangesAsync(cancellationToken);
 
         return TypedResults.Ok();

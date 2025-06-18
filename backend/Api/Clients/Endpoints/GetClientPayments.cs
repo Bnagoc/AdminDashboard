@@ -8,7 +8,7 @@ public class GetClientPayments : IEndpoint
         .WithRequestValidation<Request>()
         .WithEnsureEntityExists<Client, Request>(c => c.Id);
 
-    public record Request(int Id, int? Page, int? PageSize) : IPagedRequest;
+    public record Request(int Id, int? Page, int? Take) : IPagedRequest;
     public class RequestValidator : PagedRequestValidator<Request>
     {
         public RequestValidator()
