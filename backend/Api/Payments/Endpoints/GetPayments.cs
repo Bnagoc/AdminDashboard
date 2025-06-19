@@ -20,6 +20,7 @@ public class GetPayments : IEndpoint
     private static async Task<PagedList<Response>> Handle([AsParameters] Request request, AppDbContext database, CancellationToken cancellationToken)
     {
         return await database.Payments
+            .OrderByDescending(p => p.CreatedAtUtc)
             .Select(p => new Response
             (
                 p.Id,

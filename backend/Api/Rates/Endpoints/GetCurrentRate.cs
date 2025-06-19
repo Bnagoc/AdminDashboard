@@ -15,7 +15,7 @@ public class GetCurrentRate : IEndpoint
     private static async Task<Results<Ok<Response>, NotFound>> Handle(AppDbContext database, CancellationToken cancellationToken)
     {
         var rate = await database.Rates
-            .OrderByDescending(r => r.CreatedAtUtc)
+            .OrderBy(r => r.CreatedAtUtc)
             .Select(r => new Response
             (
                 r.Id,

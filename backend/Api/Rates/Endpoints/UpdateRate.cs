@@ -8,7 +8,7 @@ public class UpdateRate : IEndpoint
         .WithRequestValidation<Request>();
 
     public record Request(double Value);
-    public record Response(int Id);
+    public record Response(int Id, double Value);
     public class RequestValidator : AbstractValidator<Request>
     {
         public RequestValidator()
@@ -28,7 +28,7 @@ public class UpdateRate : IEndpoint
 
         await database.Rates.AddAsync(rate, cancellationToken);
         await database.SaveChangesAsync(cancellationToken);
-        var response = new Response(rate.Id);
+        var response = new Response(rate.Id, rate.Value);
         return TypedResults.Ok(response);
     }
 }
