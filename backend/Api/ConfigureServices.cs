@@ -11,6 +11,7 @@ public static class ConfigureServices
         builder.AddSerilog();
         builder.AddSwagger();
         builder.AddDatabase();
+        builder.AddCors();
         builder.Services.AddValidatorsFromAssembly(typeof(ConfigureServices).Assembly);
         builder.AddJwtAuthentication();
     }
@@ -38,6 +39,19 @@ public static class ConfigureServices
         builder.Services.AddDbContext<AppDbContext>(options =>
         {
             options.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
+        });
+    }
+
+    private static void AddCors(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(policy =>
+            {
+                policy.WithOrigins("http://localhost:5173");
+                policy.AllowAnyHeader();
+                policy.AllowAnyMethod();
+            });
         });
     }
 

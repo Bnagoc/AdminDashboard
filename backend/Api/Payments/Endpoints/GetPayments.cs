@@ -24,7 +24,7 @@ public class GetPayments : IEndpoint
             (
                 p.Id,
                 p.Amount,
-                p.Client.UserName,
+                p.Client.Name,
                 p.CreatedAtUtc,
                 p.Rate.Value
             ))

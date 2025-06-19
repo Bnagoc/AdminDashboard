@@ -31,7 +31,7 @@
         {
             var builder = modelBuilder.Entity<Client>();
 
-            builder.HasIndex(x => x.UserName)
+            builder.HasIndex(x => x.Name)
                 .IsUnique();
 
             builder.HasIndex(x => x.ReferenceId)

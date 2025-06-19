@@ -16,7 +16,7 @@ public class GetClientPayments : IEndpoint
             RuleFor(c => c.Id).GreaterThan(0);
         }
     }
-    public record Response(int Id, int ClientId, string Username, DateTime CreatedAtUtc, DateTime? UpdatedAtUtc, decimal Amount, double Value);
+    public record Response(int Id, int ClientId, string Name, string Email, DateTime CreatedAtUtc, DateTime? UpdatedAtUtc, decimal Amount, double Value);
 
     public static async Task<PagedList<Response>> Handle([AsParameters] Request request, AppDbContext database, CancellationToken cancellationToken)
     {
@@ -27,7 +27,8 @@ public class GetClientPayments : IEndpoint
             (
                 p.Id,
                 p.ClientId,
-                p.Client.UserName,
+                p.Client.Name,
+                p.Client.Email,
                 p.CreatedAtUtc,
                 p.UpdatedAtUtc,
                 p.Amount,

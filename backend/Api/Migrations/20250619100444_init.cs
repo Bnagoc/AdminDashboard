@@ -19,7 +19,9 @@ namespace Api.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ReferenceId = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserName = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    Balance = table.Column<decimal>(type: "numeric", nullable: false),
                     CreatedAtUtc = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -87,15 +89,15 @@ namespace Api.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Clients_ReferenceId",
+                name: "IX_Clients_Name",
                 table: "Clients",
-                column: "ReferenceId",
+                column: "Name",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Clients_UserName",
+                name: "IX_Clients_ReferenceId",
                 table: "Clients",
-                column: "UserName",
+                column: "ReferenceId",
                 unique: true);
 
             migrationBuilder.CreateIndex(

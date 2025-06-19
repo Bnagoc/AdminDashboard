@@ -7,13 +7,13 @@ public class CreateClient : IEndpoint
         .WithSummary("Creates a new client")
         .WithRequestValidation<Request>();
 
-    public record Request(string UserName);
+    public record Request(string Name, string Email, decimal Balance);
     public record Response(int Id);
     public class RequestValidator : AbstractValidator<Request>
     {
         public RequestValidator()
         {
-            RuleFor(c => c.UserName)
+            RuleFor(c => c.Name)
                 .NotEmpty()
                 .MaximumLength(100);
         }
@@ -23,7 +23,9 @@ public class CreateClient : IEndpoint
     {
         var client = new Client
         {
-            UserName = request.UserName
+            Name = request.Name,
+            Email = request.Email,
+            Balance = request.Balance
         };
 
         await database.Clients.AddAsync(client, cancellationToken);

@@ -9,7 +9,7 @@ public static class ConfigureApp
         app.UseSerilogRequestLogging();
         app.UseSwagger();
         app.UseSwaggerUI();
-        app.UseHttpsRedirection();
+        app.UseCors();
         app.MapEndpoints();
         await app.EnsureDatabaseCreated();
     }

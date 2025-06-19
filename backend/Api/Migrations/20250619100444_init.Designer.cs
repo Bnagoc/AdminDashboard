@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250618134006_init")]
+    [Migration("20250619100444_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -33,22 +33,29 @@ namespace Api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("numeric");
+
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<Guid>("ReferenceId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("ReferenceId")
+                    b.HasIndex("Name")
                         .IsUnique();
 
-                    b.HasIndex("UserName")
+                    b.HasIndex("ReferenceId")
                         .IsUnique();
 
                     b.ToTable("Clients");

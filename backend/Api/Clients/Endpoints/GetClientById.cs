@@ -17,7 +17,9 @@ public class GetClientById : IEndpoint
     }
     public record Response(
         int Id,
-        string UserName,
+        string Name,
+        string Email,
+        decimal Balance,
         DateTime CreatedAtUtc
     );
 
@@ -28,7 +30,9 @@ public class GetClientById : IEndpoint
             .Select(c => new Response
             (
                 c.Id,
-                c.UserName,
+                c.Name,
+                c.Email,
+                c.Balance,
                 c.CreatedAtUtc
             ))
             .SingleOrDefaultAsync(cancellationToken);

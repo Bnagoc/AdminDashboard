@@ -11,7 +11,9 @@ public class GetClients : IEndpoint
     public class RequestValidator : PagedRequestValidator<Request>;
     public record Response(
         int Id,
-        string Username,
+        string Name,
+        string Email,
+        decimal Balance,
         DateTime CreatedAtUtc
     );
 
@@ -21,7 +23,9 @@ public class GetClients : IEndpoint
             .Select(c => new Response
             (
                 c.Id,
-                c.UserName,
+                c.Name,
+                c.Email,
+                c.Balance,
                 c.CreatedAtUtc
             ))
             .ToPagedListAsync(request, cancellationToken);
