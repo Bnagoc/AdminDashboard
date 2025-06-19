@@ -8,12 +8,18 @@ public static class ConfigureServices
 {
     public static void AddServices(this WebApplicationBuilder builder)
     {
+        builder.AddRandom();
         builder.AddSerilog();
         builder.AddSwagger();
         builder.AddDatabase();
         builder.AddCors();
         builder.Services.AddValidatorsFromAssembly(typeof(ConfigureServices).Assembly);
         builder.AddJwtAuthentication();
+    }
+
+    private static void AddRandom(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddScoped<RandomGenerator>();
     }
 
     private static void AddSwagger(this WebApplicationBuilder builder)

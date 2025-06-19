@@ -8,6 +8,7 @@ global using Api.Common.Requests;
 global using Api.Common.Results;
 global using Api.Data;
 global using Api.Data.Models;
+global using Api.Helpers;
 using Api;
 using Serilog;
 

@@ -28,6 +28,7 @@ public class UpdatePayment : IEndpoint
     {
         var payment = await database.Payments.SingleAsync(c => c.Id == request.Id, cancellationToken);
         payment.Amount = request.Amount ?? payment.Amount;
+        payment.UpdatedAtUtc = DateTime.UtcNow;
         payment.Rate.Value = request.RateValue ?? payment.Rate.Value;
         await database.SaveChangesAsync(cancellationToken);
 
