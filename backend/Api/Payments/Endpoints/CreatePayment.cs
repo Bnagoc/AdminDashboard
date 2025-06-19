@@ -19,14 +19,28 @@ public class CreatePayment : IEndpoint
         }
     }
 
-    private static async Task<Ok<Response>> Handle(Request request, AppDbContext database, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
+    private static async Task<Results<Ok<Response>, BadRequest<string>>> Handle(Request request, AppDbContext database, ClaimsPrincipal claimsPrincipal, CancellationToken cancellationToken)
     {
+        var client = await database.Clients.FindAsync(request.ClientId);
+
+        if (client == null)
+        {
+            return TypedResults.BadRequest("Client not found");
+        }
+
+        if (client.Balance < request.Amount)
+        {
+            return TypedResults.BadRequest("Insufficient balance");
+        }
+
         var payment = new Payment
         {
             ClientId = request.ClientId,
             Amount = request.Amount,
             RateId = request.RateId
         };
+
+        client.Balance -= payment.Amount;
 
         await database.Payments.AddAsync(payment, cancellationToken);
         await database.SaveChangesAsync(cancellationToken);

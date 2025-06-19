@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography;
-
-namespace Api.Data
+﻿namespace Api.Data
 {
     public class Seed
     {
@@ -15,9 +13,27 @@ namespace Api.Data
         {
             using var di = serviceProvider.CreateScope();
 
+            await InitAdmin(di.ServiceProvider);
             await FillClients(di.ServiceProvider);
             await FillRates(di.ServiceProvider);
             await FillPayments(di.ServiceProvider);
+        }
+
+        private async Task InitAdmin(IServiceProvider service)
+        {
+            var repository = service.GetRequiredService<AppDbContext>();
+
+            if (!repository.Users.Any())
+            {
+                await repository.Users.AddAsync(new User
+                {
+                    Email = "admin@mirra.dev",
+                    Password = "admin123"
+                });
+
+                await repository.SaveChangesAsync();
+
+            }
         }
 
         private async Task FillClients(IServiceProvider service)
