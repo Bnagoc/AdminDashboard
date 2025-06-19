@@ -40,7 +40,8 @@ public static class Endpoints
             
         endpoints.MapPublicGroup()
             .MapEndpoint<Signup>()
-            .MapEndpoint<Login>();
+            .MapEndpoint<Login>()
+            .MapEndpoint<GenerateRefreshToken>();
     }
 
     private static void MapClientEndpoints(this IEndpointRouteBuilder app)

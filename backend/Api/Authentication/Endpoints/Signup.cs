@@ -10,7 +10,7 @@ public class Signup : IEndpoint
         .WithRequestValidation<Request>();
 
     public record Request(string Email, string Password);
-    public record Response(string Token);
+    public record Response(string Token, string RefreshToken);
     public class RequestValidator : AbstractValidator<Request>
     {
         public RequestValidator()
@@ -20,7 +20,8 @@ public class Signup : IEndpoint
         }
     }
 
-    private static async Task<Results<Ok<Response>, ValidationError>> Handle(Request request, AppDbContext database, Jwt jwt, CancellationToken cancellationToken)
+    private static async Task<Results<Ok<Response>, ValidationError>> Handle(Request request, AppDbContext database, Jwt jwt,
+        IRefreshTokenService refreshTokenService, CancellationToken cancellationToken)
     {
         var isUsernameTaken = await database.Users
             .AnyAsync(x => x.Email == request.Email, cancellationToken);
@@ -39,7 +40,9 @@ public class Signup : IEndpoint
         await database.SaveChangesAsync(cancellationToken);
 
         var token = jwt.GenerateToken(user);
-        var response = new Response(token);
+        var refreshToken = await refreshTokenService.GenerateAsync(user.Id.ToString());
+
+        var response = new Response(token, refreshToken);
         return TypedResults.Ok(response);
     }
 }

@@ -12,9 +12,15 @@ public static class ConfigureServices
         builder.AddSerilog();
         builder.AddSwagger();
         builder.AddDatabase();
+        builder.AddRefreshTokenService();
         builder.AddCors();
         builder.Services.AddValidatorsFromAssembly(typeof(ConfigureServices).Assembly);
         builder.AddJwtAuthentication();
+    }
+
+    private static void AddRefreshTokenService(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
     }
 
     private static void AddRandom(this WebApplicationBuilder builder)
@@ -67,7 +73,7 @@ public static class ConfigureServices
         {
             options.TokenValidationParameters = new TokenValidationParameters
             {
-                IssuerSigningKey = Jwt.SecurityKey(builder.Configuration["Jwt:Key"]!),
+                IssuerSigningKey = JwtHelpers.SecurityKey(builder.Configuration["Jwt:Key"]!),
                 ValidateIssuer = false,
                 ValidateAudience = false,
                 ValidateLifetime = true,

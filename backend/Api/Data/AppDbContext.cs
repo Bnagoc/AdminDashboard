@@ -1,8 +1,11 @@
-﻿namespace Api.Data
+﻿using Api.Authentication.Services;
+
+namespace Api.Data
 {
     public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Rate> Rates { get; set; }

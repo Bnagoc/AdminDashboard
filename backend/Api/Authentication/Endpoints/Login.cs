@@ -1,4 +1,6 @@
 ﻿using Api.Authentication.Services;
+using Api.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Authentication.Endpoints;
 
@@ -10,7 +12,7 @@ public class Login : IEndpoint
         .WithRequestValidation<Request>();
 
     public record Request(string Email, string Password);
-    public record Response(string Token);
+    public record Response(string Token, string RefreshToken);
     public class RequestValidator : AbstractValidator<Request>
     {
         public RequestValidator()
@@ -20,7 +22,8 @@ public class Login : IEndpoint
         }
     }
 
-    private static async Task<Results<Ok<Response>, UnauthorizedHttpResult>> Handle(Request request, AppDbContext database, Jwt jwt, CancellationToken cancellationToken)
+    private static async Task<Results<Ok<Response>, UnauthorizedHttpResult>> Handle(Request request, AppDbContext database, Jwt jwt,
+        IRefreshTokenService refreshTokenService, CancellationToken cancellationToken)
     {
         var user = await database.Users.SingleOrDefaultAsync(x => x.Email == request.Email && x.Password == request.Password, cancellationToken);
 
@@ -30,7 +33,9 @@ public class Login : IEndpoint
         }
 
         var token = jwt.GenerateToken(user);
-        var response = new Response(token);
+        database.RefreshTokens.RemoveRange(database.RefreshTokens.Where(u => u.UserId == user.Id.ToString()).ToList());
+        var refreshToken = await refreshTokenService.GenerateAsync(user.Id.ToString());
+        var response = new Response(token, refreshToken);
         return TypedResults.Ok(response);
     }
 }
