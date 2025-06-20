@@ -50,11 +50,11 @@ public static class Endpoints
             .WithTags("Clients");
 
         endpoints.MapPublicGroup()
-            .MapEndpoint<GetClients>()
             .MapEndpoint<GetClientById>()
             .MapEndpoint<GetClientPayments>();
 
         endpoints.MapAuthorizedGroup()
+            .MapEndpoint<GetClients>()
             .MapEndpoint<CreateClient>()
             .MapEndpoint<UpdateClient>()
             .MapEndpoint<DeleteClient>();
@@ -78,10 +78,10 @@ public static class Endpoints
             .WithTags("Payments");
 
         endpoints.MapPublicGroup()
-            .MapEndpoint<GetPayments>()
             .MapEndpoint<GetPaymentById>();
 
         endpoints.MapAuthorizedGroup()
+            .MapEndpoint<GetPayments>()
             .MapEndpoint<CreatePayment>()
             .MapEndpoint<UpdatePayment>()
             .MapEndpoint<DeletePayment>();

@@ -63,6 +63,7 @@ public static class ConfigureServices
                 policy.WithOrigins("http://localhost:5173");
                 policy.AllowAnyHeader();
                 policy.AllowAnyMethod();
+                policy.AllowCredentials();
             });
         });
     }

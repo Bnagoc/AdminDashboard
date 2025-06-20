@@ -60,7 +60,8 @@ public class GenerateRefreshToken : IEndpoint
             ValidateIssuer = false,
             ValidateLifetime = false,
             IssuerSigningKey = JwtHelpers.SecurityKey(key),
-            ValidateIssuerSigningKey = true
+            ValidateIssuerSigningKey = true,
+            ClockSkew = TimeSpan.Zero
         };
 
         var tokenHandler = new JwtSecurityTokenHandler();

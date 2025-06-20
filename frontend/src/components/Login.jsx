@@ -13,6 +13,7 @@ export default function Login() {
         try {
             const res = await api.post('/auth/login', { email, password });
             localStorage.setItem('token', res.data.token);
+            localStorage.setItem('refreshToken', res.data.refreshToken);
             navigate('/dashboard');
         } catch (err) {
             setError('Invalid credentials');

@@ -8,7 +8,8 @@ namespace Api.Authentication.Services;
 public class JwtOptions
 {
     public required string Key { get; init; }
-    public TimeSpan AccessTokenExpiry { get; set; } = TimeSpan.FromMinutes(5);
+    //public TimeSpan AccessTokenExpiry { get; set; } = TimeSpan.FromMinutes(5);
+    public TimeSpan AccessTokenExpiry { get; set; } = TimeSpan.FromSeconds(5);
     public TimeSpan RefreshTokenExpiry { get; set; } = TimeSpan.FromDays(7);
 }
 

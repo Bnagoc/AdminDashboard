@@ -15,11 +15,11 @@ export default function Dashboard() {
 
     const fetchData = async () => {
         try {
-            const clientsResponse = await api.get('/clients');
             const rateResponse = await api.get('/rates');
             const paymentsResponse = await api.get('/payments?take=5');
+            const clientsResponse = await api.get('/clients');
 
-            setClients(clientsResponse.data);
+            setClients(clientsResponse.data.items);
             setRate(rateResponse.data.value);
             setPayments(paymentsResponse.data.items || []);
             setLoading(false);
@@ -45,7 +45,7 @@ export default function Dashboard() {
     if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
     return (
-        <>
+        
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-xl">
                 <h2 className="mt-10 text-center text-2xl font-bold tracking-tight text-gray-900">
@@ -65,7 +65,7 @@ export default function Dashboard() {
                             </tr>
                         </thead>
                         <tbody>
-                            {clients.items.map(client => (
+                            {clients.map(client => (
                                 <tr key={client.id} className="hover:bg-gray-50">
                                     <td className="py-2 px-4 border-b">{client.name}</td>
                                     <td className="py-2 px-4 border-b">{client.email}</td>
@@ -142,6 +142,6 @@ export default function Dashboard() {
             </div>
 
         </div>
-    </>
+    
     );
 }

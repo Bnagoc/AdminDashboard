@@ -9,7 +9,9 @@ public static class ConfigureApp
         app.UseSerilogRequestLogging();
         app.UseSwagger();
         app.UseSwaggerUI();
+        app.UseRouting();
         app.UseCors();
+        app.UseAuthorization();
         app.MapEndpoints();
         await app.EnsureDatabaseCreated();
     }
