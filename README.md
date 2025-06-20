@@ -27,7 +27,7 @@ npm run dev
 ## Данные для входа
 
 - Email: admin@mirra.dev
-- Password: admin123
+- Password: admin123  
 
 ## Примеры запросов
 
