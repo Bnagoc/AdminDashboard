@@ -1,8 +1,8 @@
 # V. Samusev - Admin Dashboard - Mira Games
 
-> Реализация административной панели с ASP.NET Core 8 API и React-фронтендом
+> Р РµР°Р»РёР·Р°С†РёСЏ Р°РґРјРёРЅРёСЃС‚СЂР°С‚РёРІРЅРѕР№ РїР°РЅРµР»Рё СЃ ASP.NET Core 8 API Рё React-С„СЂРѕРЅС‚РµРЅРґРѕРј
 
-## Запуск API (http://localhost:5000)
+## Р—Р°РїСѓСЃРє API (http://localhost:5000)
 
 ### Backend (ASP.NET Core API)
 
@@ -13,7 +13,7 @@ dotnet restore
 dotnet run
 ```
 
-## Запуск API (http://localhost:5173)
+## Р—Р°РїСѓСЃРє API (http://localhost:5173)
 
 ### Frontend (React + Vite)
 
@@ -24,16 +24,16 @@ npm install
 npm run dev
 ```
 
-## Данные для входа
+## Р”Р°РЅРЅС‹Рµ РґР»СЏ РІС…РѕРґР°
 
 - Email: admin@mirra.dev
-- Password: admin123
+- Password: admin123  
 
-## Примеры запросов
+## РџСЂРёРјРµСЂС‹ Р·Р°РїСЂРѕСЃРѕРІ
 
-### 1. Авторизация
+### 1. РђРІС‚РѕСЂРёР·Р°С†РёСЏ
 
-#### Запрос
+#### Р—Р°РїСЂРѕСЃ
 
 ```
 curl -X POST http://localhost:5000/auth/login \
@@ -41,7 +41,7 @@ curl -X POST http://localhost:5000/auth/login \
   -d '{"email":"admin@mirra.dev","password":"admin123"}'
 ```
 
-#### Ответ
+#### РћС‚РІРµС‚
 
 ```
 {
@@ -50,22 +50,22 @@ curl -X POST http://localhost:5000/auth/login \
 }
 ```
 
-#### Сохранение токена в заголовке
+#### РЎРѕС…СЂР°РЅРµРЅРёРµ С‚РѕРєРµРЅР° РІ Р·Р°РіРѕР»РѕРІРєРµ
 
 ```
 Authorization: Bearer [token]
 ```
 
-### 2. Получить список клиентов
+### 2. РџРѕР»СѓС‡РёС‚СЊ СЃРїРёСЃРѕРє РєР»РёРµРЅС‚РѕРІ
 
-#### Запрос
+#### Р—Р°РїСЂРѕСЃ
 
 ```
 curl http://localhost:5000/clients
   -H "Authorization: Bearer [token]"
 ```
 
-#### Ответ
+#### РћС‚РІРµС‚
 
 ```
 {
@@ -86,16 +86,16 @@ curl http://localhost:5000/clients
 }
 ```
 
-### 3. Получить последние N платежей
+### 3. РџРѕР»СѓС‡РёС‚СЊ РїРѕСЃР»РµРґРЅРёРµ N РїР»Р°С‚РµР¶РµР№
 
-#### Запрос
+#### Р—Р°РїСЂРѕСЃ
 
 ```
 curl http://localhost:5000/payments?take=5
   -H "Authorization: Bearer [token]"
 ```
 
-#### Ответ
+#### РћС‚РІРµС‚
 
 ```
 {
@@ -116,15 +116,15 @@ curl http://localhost:5000/payments?take=5
 }
 ```
 
-### 4. Получить текущий курс
+### 4. РџРѕР»СѓС‡РёС‚СЊ С‚РµРєСѓС‰РёР№ РєСѓСЂСЃ
 
-#### Запрос
+#### Р—Р°РїСЂРѕСЃ
 
 ```
 curl http://localhost:5000/rates
 ```
 
-#### Ответ
+#### РћС‚РІРµС‚
 
 ```
 {
@@ -134,9 +134,9 @@ curl http://localhost:5000/rates
 }
 ```
 
-### 5. Обновить курс
+### 5. РћР±РЅРѕРІРёС‚СЊ РєСѓСЂСЃ
 
-#### Запрос
+#### Р—Р°РїСЂРѕСЃ
 
 ```
 curl -X POST http://localhost:5000/rates \
@@ -145,7 +145,7 @@ curl -X POST http://localhost:5000/rates \
   -d '{"value":15}'
 ```
 
-#### Ответ
+#### РћС‚РІРµС‚
 
 ```
 {
@@ -155,10 +155,10 @@ curl -X POST http://localhost:5000/rates \
 }
 ```
 
-| Технология | Назначение |
+| РўРµС…РЅРѕР»РѕРіРёСЏ | РќР°Р·РЅР°С‡РµРЅРёРµ |
 |--|--|
-| ASP.NET Core 8 | Бэкенд на Minimal API |
-| PostgreSQL | Хранилище данных |
-| React + Vite | Фронтенд |
-| TailwindCSS | Стили |
-| Serilog | Логгирование |
+| ASP.NET Core 8 | Р‘СЌРєРµРЅРґ РЅР° Minimal API |
+| PostgreSQL | РҐСЂР°РЅРёР»РёС‰Рµ РґР°РЅРЅС‹С… |
+| React + Vite | Р¤СЂРѕРЅС‚РµРЅРґ |
+| TailwindCSS | РЎС‚РёР»Рё |
+| Serilog | Р›РѕРіРіРёСЂРѕРІР°РЅРёРµ |
