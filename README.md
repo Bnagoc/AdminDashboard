@@ -162,3 +162,4 @@ curl -X POST http://localhost:5000/rates \
 | React + Vite | Фронтенд |
 | TailwindCSS | Стили |
 | Serilog | Логгирование |
+
